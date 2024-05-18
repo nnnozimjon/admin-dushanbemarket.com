@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -80,8 +80,7 @@ export default function ProductCreate() {
     }
   };
 
-  const handleCreateProduct = useCallback(() => { 
-
+  const handleCreateProduct = useCallback(async () => {
     if (!productDetails?.name) {
       return toast.info("Требуется название продукта!");
     }
@@ -124,8 +123,25 @@ export default function ProductCreate() {
       formData.append(`images`, file);
     });
 
-    createProduct(formData);
-  }, [productDetails, files]);
+    await createProduct(formData);
+  }, [
+    productDetails?.name,
+    productDetails?.description,
+    productDetails?.category_id,
+    productDetails?.price,
+    productDetails?.sub_category_id,
+    productDetails?.brand_id,
+    productDetails?.model_id,
+    productDetails?.qty,
+    productDetails?.colors,
+    productDetails?.sizes,
+    productDetails?.gender,
+    productDetails?.price_in_friday,
+    productDetails?.shipping,
+    files,
+    isChecked,
+    createProduct,
+  ]);
 
   const handleDeleteImage = (index: number) => {
     const newFiles = files ? [...files] : [];
@@ -180,7 +196,7 @@ export default function ProductCreate() {
       toast?.success(data?.message);
       window.location.reload();
     }
-  }, [isError, isSuccess]);
+  }, [data?.message, error, isError, isSuccess]);
 
   return (
     <div className="w-full">
