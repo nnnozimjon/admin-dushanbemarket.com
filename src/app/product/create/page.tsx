@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Button,
@@ -80,8 +80,7 @@ export default function ProductCreate() {
     }
   };
 
-  const handleCreateProduct = () => {
-    const formData = new FormData();
+  const handleCreateProduct = useCallback(() => { 
 
     if (!productDetails?.name) {
       return toast.info("Требуется название продукта!");
@@ -103,9 +102,7 @@ export default function ProductCreate() {
       return toast.info("Требуется цена товара!");
     }
 
-    files.forEach((file) => {
-      formData.append(`images`, file);
-    });
+    const formData = new FormData();
 
     formData.append("name", productDetails?.name);
     formData.append("service_type", "product");
@@ -123,8 +120,12 @@ export default function ProductCreate() {
     formData.append("shipping", isChecked ? "free" : productDetails?.shipping);
     formData.append("status", "active");
 
+    files.forEach((file) => {
+      formData.append(`images`, file);
+    });
+
     createProduct(formData);
-  };
+  }, [productDetails, files]);
 
   const handleDeleteImage = (index: number) => {
     const newFiles = files ? [...files] : [];
