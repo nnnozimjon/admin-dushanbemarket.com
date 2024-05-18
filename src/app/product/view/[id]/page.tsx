@@ -13,7 +13,7 @@ import {
   Skeleton,
   Text,
 } from "@mantine/core";
-import { Counter, Icon, ProductCard } from "@/components";
+import { Counter, Icon } from "@/components";
 import { useParams } from "react-router-dom";
 import { useGetByIdQuery } from "@/store";
 import { colors } from "@/utils/color";
