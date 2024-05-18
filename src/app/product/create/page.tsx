@@ -205,7 +205,7 @@ export default function ProductCreate() {
 
   return (
     <div className="w-full">
-      <h1 className="text-[20px]">Создать продукт</h1>
+      <h1 className="text-[20px]">Создать продукт _</h1>
       <br />
       <Paper className="p-2 md:p-4" shadow="xs" radius={"lg"}>
         <InputBase
