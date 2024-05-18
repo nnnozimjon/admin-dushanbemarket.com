@@ -81,6 +81,7 @@ export default function ProductCreate() {
   };
 
   const handleCreateProduct = useCallback(async () => {
+
     if (!productDetails?.name) {
       return toast.info("Требуется название продукта!");
     }
@@ -123,7 +124,11 @@ export default function ProductCreate() {
       formData.append(`images`, file);
     });
 
-    await createProduct(formData);
+    try {
+      await createProduct(formData).unwrap();
+    } catch (error) {
+      toast.error("Не удалось добавить продукт!");
+    }
   }, [
     productDetails?.name,
     productDetails?.description,
@@ -386,19 +391,18 @@ export default function ProductCreate() {
           />
         )}
       </Paper>
-      {!isLoading && (
-        <Button
-          disabled={isLoading}
-          onClick={handleCreateProduct}
-          className="my-4 p-4 w-full h-[50px] rounded-[16px]"
-          color="green"
-        >
-          Добавить продукт
-        </Button>
-      )}
+
+      <Button
+        onClick={() => handleCreateProduct()}
+        className="my-4 p-4 w-full h-[50px] rounded-[16px]"
+        color="green"
+      >
+        Добавить продукт
+      </Button>
+
       <LoadingOverlay
         visible={isLoading}
-        zIndex={1000}
+        zIndex={2000}
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "green", type: "oval" }}
       />
