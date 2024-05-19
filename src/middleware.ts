@@ -4,34 +4,63 @@ import { cookies } from 'next/headers'
  
 // 1. Specify protected and public routes
 const publicRoutes = ['/auth']
+const roleLinks = {
+  admin: [
+    "/users",
+    "/products",
+    "/orders",
+    "/invoices",
+    "/categories",
+    "/banners",
+    "/brands",
+    "/delivery-types",
+    "/characteristics",
+    "/payment-types",
+  ],
+  merchant: [
+    "/products",
+    "/orders",
+    "/invoices",
+  ],
+};
+
  
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
-  const isProtectedRoute = !publicRoutes.includes(path)
+  // const isProtectedRoute = !publicRoutes.includes(path)
+  const isProtectedRoute = Object.values(roleLinks).some(links => links.includes(path));
+
   const isPublicRoute = publicRoutes.includes(path)
   
-  // 3. Decrypt the session from the cookie 
-  const token: string = cookies().get('access_token')?.value || ""
-  const userDetails:any = await decryptToken(token)
   
   if (isProtectedRoute) {
-    if (!userDetails?.email) {
-      return NextResponse.redirect(new URL('/auth', req.nextUrl));
+    // 3. Decrypt the session from the cookie 
+    const token: string = cookies().get('access_token')?.value || ""
+    const userDetails: any = await decryptToken(token)
+    
+    if (!userDetails || !userDetails.email || !userDetails.user_role) {
+       return NextResponse.redirect(new URL('/auth', req.nextUrl));
     }
 
-    if (!(userDetails?.user_role === 'merchant')) {
-      return NextResponse.redirect(new URL('/auth', req.nextUrl));
+    // Check if user is authorized for the route
+    // @ts-ignore
+    const allowedRoutes = roleLinks[userDetails.user_role];
+    
+    if (!allowedRoutes.includes(path)) {
+      return NextResponse.redirect(new URL('/', req.nextUrl)); 
+    }
+
+  } else if (path === '/auth') {
+    // If the user is logged in, redirect them to the home page
+    const token: string = cookies().get('access_token')?.value || "";
+    const userDetails: any = await decryptToken(token);
+
+    if (userDetails && userDetails.email && userDetails.user_role) {
+      return NextResponse.redirect(new URL('/', req.nextUrl));
     }
   }
 
-  if (
-    isPublicRoute &&
-    userDetails?.email &&
-    userDetails?.user_role === 'merchant'
-  ) {
-    return NextResponse.redirect(new URL('/', req.nextUrl));
-  }
  
   return NextResponse.next()
 }
