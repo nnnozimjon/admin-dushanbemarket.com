@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Badge,
@@ -14,7 +14,7 @@ import {
   Text,
 } from "@mantine/core";
 import { Counter, Icon } from "@/components";
-import { useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
 import { useGetByIdQuery } from "@/store";
 import { colors } from "@/utils/color";
 
@@ -29,7 +29,7 @@ export default function ViewProduct(){
   const params = useParams();
 
   const { data, error, isError, isSuccess, isLoading } = useGetByIdQuery({
-    id: params?.id,
+    id: params?.id
   });
 
 
@@ -44,10 +44,8 @@ export default function ViewProduct(){
 
   const filteredColors: Color[] = filterColors(colors, colorsList);
 
-  console.log(productData)
-
   useEffect(() => {
-
+  
 
   }, [isError, isSuccess])
 

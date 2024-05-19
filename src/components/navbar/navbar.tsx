@@ -11,62 +11,101 @@ import {
   IconArrowDown,
   IconArrowRight,
   IconPoint,
+  IconCategory,
+  IconCategory2,
+  IconAd2,
+  IconBrand4chan,
+  IconTruckDelivery,
+  IconChartArcs,
+  IconMoneybag,
 } from "@tabler/icons-react";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "@/components";
 
-const data = [
+
+interface ILink {
+  link: string,
+  label: string,
+  icon: any
+  links: {
+    label: string,
+    link: string
+  }[]
+}
+const data: ILink[] = [
   {
-    link: "",
-    label: "User",
+
+    link: "/users",
+    label: "Пользователи",
     icon: IconUserScan,
-    links: [
-      { label: "Profile", link: "/user" },
-      { label: "Create", link: "/user/create" },
-      { label: "Edit", link: "/user/edit" },
-    ],
+    links: [],
   },
   {
-    link: "",
-    label: "Product",
+    link: "/product",
+    label: "Продукты",
     icon: IconPackage,
-    links: [
-      { label: "List", link: "/product/list" },
-      { label: "Create", link: "/product/create" },
-    ],
+    links: [],
   },
   {
-    link: "",
-    label: "Order",
+    link: "/order",
+    label: "Заказы",
     icon: IconShoppingCart,
-    links: [
-      { label: "List", link: "/order/list" },
-      { label: "Details", link: "/order/details" },
-    ],
+    links: [],
   },
   {
     link: "",
-    label: "Invoice",
+    label: "Счет",
     icon: IconFileDollar,
-    links: [
-      { label: "Profile", link: "/" },
-      { label: "Create", link: "/" },
-      { label: "Edit", link: "/" },
-    ],
+    links: [ ],
+  },
+  {
+    link: "",
+    icon: IconCategory2,
+    label: "Категории",
+    links: []
+  },
+  {
+    link: "",
+    icon: IconAd2,
+    label: "Баннеры",
+    links: []
+  }, 
+  {
+    link: "",
+    icon: IconBrand4chan,
+    label: "Бренды",
+    links: []
+  },
+  {
+    link: "",
+    icon: IconTruckDelivery,
+    label: "Спосбы доставки",
+    links: []
+  },
+  {
+    link: "",
+    icon: IconChartArcs,
+    label: "Характеристики",
+    links: []
+  },
+  {
+    link: "",
+    icon: IconMoneybag,
+    label: "Cпосбы оплаты",
+    links: []
   },
 ];
 
 export default function Navbar() {
   const [active, setActive] = useState("Billing");
 
-  const links = data.map((item, index) => (
+  const links = data?.map((item, index) => (
     <div key={index}>
       <div
         className={`${classes.link} cursor-pointer`}
         data-active={item.label === active || undefined}
         key={item.label}
         onClick={(event) => {
-          event.preventDefault();
           if (item.label === active) {
             return setActive("");
           }
@@ -76,27 +115,12 @@ export default function Navbar() {
         <Flex align={"center"} justify={"space-between"} className="w-full">
           <Flex align={"center"} justify={"center"}>
             <item.icon className={classes.linkIcon} stroke={1.5} />
-            <span>{item.label}</span>
+            <a className="no-underline text-blue w-full" href={item?.link}>
+                {item.label}
+              </a>
           </Flex>
-          {active == item.label ? (
-            <IconArrowDown size={15} />
-          ) : (
-            <IconArrowRight size={15} />
-          )}
         </Flex>
       </div>
-      {active == item.label && item.links && (
-        <Flex gap={'sm'} direction={"column"} className="px-4 mt-2">
-          {item.links?.map((newLinks, index) => (
-            <Flex  key={index} className="w-full p-2 rounded-lg cursor-pointer hover:bg-[rgba(0,255,0,0.08)]" align={"center"} gap={"md"}>
-              <IconPoint size={15} />
-              <a className="no-underline text-blue w-full" href={newLinks?.link}>
-                {newLinks.label}
-              </a>
-            </Flex>
-          ))}
-        </Flex>
-      )}
     </div>
   ));
 

@@ -130,20 +130,25 @@ export default function LoginModal() {
     }
 
     if (loginIsSuccess) {
-        setCookie("access_token", loginData.token);
-        const decryptedData = decryptToken(loginData.token);
-        toast.success(loginData?.message);
+      setCookie("access_token", loginData.token);
+      const decryptedData = decryptToken(loginData.token);
+      toast.success(loginData?.message);
 
-        setTimeout(() => {
-          dispatch(loginSuccess(decryptedData));
-          window.location.replace("/");
-        }, 1000);
+      setTimeout(() => {
+        dispatch(loginSuccess(decryptedData));
+        window.location.replace("/");
+      }, 1000);
     }
   }, [loginIsError, loginIsSuccess]);
 
   const LoginView = (
     <>
-      <Flex gap={"md"} direction={"column"} align={"center"} className="w-[350px]">
+      <Flex
+        gap={"md"}
+        direction={"column"}
+        align={"center"}
+        className="w-[350px]"
+      >
         <p className="text-center text-[2em] select-none">Войти</p>
         <InputBase
           placeholder={"Электронная почта"}
@@ -438,27 +443,33 @@ export default function LoginModal() {
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <div>
-          <Flex direction={"column"} className="w-full" align={"center"}>
-            <Icon
-              name="logo"
-              className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] text-[#01B763]"
-            />
-          </Flex>
+        <Flex direction={"column"} className="w-full" align={"center"}>
+          <Icon
+            name="logo"
+            className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] text-[#01B763]"
+          />
+        </Flex>
 
-          {view == "login" && LoginView}
-          {view == "register" && RegisterView}
-          {view == "code" && CodeView}
-          {view == "password" && RecoveryView}
-          {view == "password_code" && ForgotPasswordCodeView}
-          {view == "new_password" && NewPasswordCodeView}
+        {view == "login" && LoginView}
+        {view == "register" && RegisterView}
+        {view == "code" && CodeView}
+        {view == "password" && RecoveryView}
+        {view == "password_code" && ForgotPasswordCodeView}
+        {view == "new_password" && NewPasswordCodeView}
 
         <LoadingOverlay
           visible={otpIsLoading}
-          zIndex={1000}
+          zIndex={2000}
           overlayProps={{ radius: "sm", blur: 2 }}
           loaderProps={{ color: "green", type: "oval" }}
-          />
-          </div>
+        />
+        <LoadingOverlay
+          visible={loginIsLoading}
+          zIndex={2000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+          loaderProps={{ color: "green", type: "oval" }}
+        />
+      </div>
     </div>
   );
 }

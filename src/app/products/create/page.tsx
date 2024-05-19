@@ -81,7 +81,6 @@ export default function ProductCreate() {
   };
 
   const handleCreateProduct = useCallback(async () => {
-
     if (!productDetails?.name) {
       return toast.info("Требуется название продукта!");
     }
@@ -105,13 +104,11 @@ export default function ProductCreate() {
     const formData = new FormData();
 
     formData.append("name", productDetails?.name);
-    formData.append("service_type", "product");
     formData.append("price", productDetails?.price);
     formData.append("description", productDetails?.description);
     formData.append("category_id", productDetails?.category_id);
     formData.append("sub_category_id", productDetails?.sub_category_id);
     formData.append("brand_id", productDetails?.brand_id);
-    formData.append("model_id", productDetails?.model_id);
     formData.append("qty", productDetails?.qty);
     formData.append("colors", productDetails?.colors);
     formData.append("sizes", productDetails?.sizes);
@@ -136,7 +133,6 @@ export default function ProductCreate() {
     productDetails?.price,
     productDetails?.sub_category_id,
     productDetails?.brand_id,
-    productDetails?.model_id,
     productDetails?.qty,
     productDetails?.colors,
     productDetails?.sizes,
