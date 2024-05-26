@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import CardDataStats from "@/components/card-data-stats/CardDataStats";
 import {
   IconBasketCheck,
@@ -8,8 +10,27 @@ import {
 } from "@tabler/icons-react";
 import { SimpleGrid } from "@mantine/core";
 import ProductOrderCard from "@/components/product-order-card/ProductOrderCard";
+import { useGetAllOrdersQuery } from "@/store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function OrderList() {
+  const storeId = useSelector(
+    (state: RootState) => state?.userStores?.selectedStore?.storeId
+  );
+
+  const [ordersList, setOrdersList] = useState([]);
+
+  const { data, error, isSuccess, isError, isLoading } = useGetAllOrdersQuery({
+    storeId,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOrdersList(data?.payload);
+    }
+  }, [isSuccess, isError]);
+
   return (
     <div>
       <SimpleGrid
@@ -40,12 +61,18 @@ export default function OrderList() {
         spacing={{ base: 10, sm: "xl" }}
         verticalSpacing={{ base: "md", sm: "xl" }}
       >
-        <ProductOrderCard />
-        <ProductOrderCard />
-        <ProductOrderCard />
-        <ProductOrderCard />
-        <ProductOrderCard />
-        <ProductOrderCard />
+        {ordersList?.map((order: any, key) => (
+          <ProductOrderCard
+            id={order?.id}
+            phoneNumber={order?.phone_number}
+            comment={order?.comment}
+            address={order?.address}
+            totalAmount={order?.total_amount}
+            orderDate={order?.order_date}
+            orderItems={order?.order_items}
+            key={key}
+          />
+        ))}
       </SimpleGrid>
     </div>
   );

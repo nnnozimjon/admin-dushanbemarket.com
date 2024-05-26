@@ -43,11 +43,6 @@ const data: ILink[] = [
     icon: IconShoppingCart,
   },
   {
-    link: "/invoices",
-    label: "Счет",
-    icon: IconFileDollar,
-  },
-  {
     link: "/categories",
     icon: IconCategory2,
     label: "Категории",
@@ -92,7 +87,6 @@ const roleLinks = {
   merchant: [
     "/products",
     "/orders",
-    "/invoices",
   ],
 };
 
@@ -103,7 +97,7 @@ export default function Navbar() {
   const [active, setActive] = useState("Billing");
 
   const filterLinksByRole = (role: userRole) => {
-    return data.filter((link) => roleLinks[role]?.includes(link.link));
+    return data?.filter((link) => roleLinks[role]?.includes(link.link));
   };
 
   // @ts-ignore

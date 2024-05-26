@@ -17,3 +17,5 @@ export {
 export { useGetAllCategoryQuery } from "./api/merchantCategoryApi";
 
 export { useGetAllStoresQuery } from './api/MerchantStoresApi'
+
+export { useGetAllOrdersQuery, useChangeStatusOrderMutation } from './api/MerchantOrderApi'

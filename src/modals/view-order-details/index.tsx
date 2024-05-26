@@ -1,9 +1,15 @@
+import { OrderItem } from "@/components/product-order-card/ProductOrderCard";
 import { Alert, Modal, Table, Text } from "@mantine/core";
 
 interface IProps {
   opened: boolean;
   open: () => void;
   close: () => void;
+  phoneNumber: string;
+  address: string;
+  comment: string;
+  orderDate: string;
+  orderItems: OrderItem[];
 }
 
 interface ITable {
@@ -14,55 +20,31 @@ interface ITable {
   price: string;
 }
 
-export default function ViewOrderDetails({ close, open, opened }: IProps) {
-  const elements: ITable[] = [
-    {
-      productName: "Питса маргарита",
-      quantity: 3,
-      color: "-",
-      size: "-",
-      price: "1400",
-    },
-    {
-      productName: "Крилишки 2х",
-      quantity: 4,
-      color: "-",
-      size: "-",
-      price: "1400",
-    },
-    {
-      productName: "Хот дог",
-      quantity: 4,
-      color: "-",
-      size: "-",
-      price: "1400",
-    },
-    {
-      productName: "Рол куриный",
-      quantity: 6,
-      color: "-",
-      size: "-",
-      price: "1400",
-    },
-    {
-      productName: "Самбуса",
-      quantity: 4,
-      color: "-",
-      size: "-",
-      price: "1400",
-    },
-  ];
-
-  const rows = elements?.map((element: ITable) => (
-    <Table.Tr key={element.productName}>
-      <Table.Td>{element.productName}</Table.Td>
+export default function ViewOrderDetails({
+  close,
+  open,
+  opened,
+  address,
+  comment,
+  orderDate,
+  orderItems,
+  phoneNumber,
+}: IProps) {
+  const rows = orderItems?.map((element: OrderItem) => (
+    <Table.Tr key={element.product_name}>
+      <Table.Td>{element.product_name}</Table.Td>
       <Table.Td>{element.quantity}</Table.Td>
       <Table.Td>{element.color}</Table.Td>
       <Table.Td>{element.size}</Table.Td>
-      <Table.Td>{element.price}</Table.Td>
+      <Table.Td>
+        {element.price} x {element.quantity} ={" "}
+        <strong>
+          {(Number(element.price) * Number(element.quantity)).toFixed(2)} c.
+        </strong>
+      </Table.Td>
     </Table.Tr>
   ));
-  
+
   return (
     <Modal
       opened={opened}
@@ -75,9 +57,10 @@ export default function ViewOrderDetails({ close, open, opened }: IProps) {
       <Text className="text-[1.25rem] font-bold text-[#212121]">
         Детали заказчика
       </Text>
-      <Text> 📞 Номер телефона: 992985031200 </Text>
-      <Text>🏠 Адрес: Бонки Алиф</Text>
-      <Alert title="💬 Комментарий">Дезтар биёрш Ака</Alert>
+      <Text> 📞 Номер телефона: {phoneNumber} </Text>
+      <Text>🏠 Адрес: {address} </Text>
+      <Text>Время заказа: {new Date(orderDate).toUTCString()}</Text>
+      <Alert title="💬 Комментарий">{comment}</Alert>
       <div className="overflow-scroll scrollbar-hide">
         <Table>
           <Table.Thead>

@@ -1,6 +1,8 @@
 "use client";
 
 import ViewOrderDetails from "@/modals/view-order-details";
+import { useChangeStatusOrderMutation } from "@/store";
+import { RootState } from "@/store/store";
 import {
   Avatar,
   Button,
@@ -12,43 +14,68 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconEye, IconX } from "@tabler/icons-react";
+import { useSelector } from "react-redux";
 
+export interface OrderItem {
+  id: number;
+  quantity: number;
+  color: string | null;
+  size: string | null;
+  price: string;
+  product_name: string;
+  images: string[];
+}
 interface IProps {
-  onAccept: () => void
-  onDecline: () => void
-  // product: string
+  id: number;
+  phoneNumber: string;
+  comment: string;
+  address: string;
+  totalAmount: string;
+  orderDate: string;
+  orderItems: OrderItem[];
 }
 
-export default function ProductOrderCard() {
+export default function ProductOrderCard({
+  address,
+  comment,
+  id,
+  orderDate,
+  orderItems,
+  phoneNumber,
+  totalAmount,
+}: IProps) {
+  const storeId = useSelector(
+    (state: RootState) => state?.userStores?.selectedStore?.storeId
+  );
   const [opened, { open, close }] = useDisclosure(false);
+
+  const [changeStatus, { isError, isSuccess }] = useChangeStatusOrderMutation();
 
   return (
     <Paper shadow="xs" radius="lg" withBorder>
       <SimpleGrid className="w-full" cols={{ sm: 1, lg: 1, md: 1 }}>
         <div className="p-4">
-          <Image
-            className="rounded-lg"
-            alt=""
-            src="https://api.dushanbemarket.com/store/api/v1/product/image/3c8eb458-8c7f-473f-b5d6-2aa9b62a3385.png"
-          />
+          <Image className="rounded-lg" alt="" src={orderItems[0]?.images[0]} />
         </div>
         <Flex direction={"column"} className="px-4">
           <Grid>
             <Grid.Col span={6}>
               <Avatar.Group>
-                <Avatar
-                  src="https://api.dushanbemarket.com/store/api/v1/product/image/3c8eb458-8c7f-473f-b5d6-2aa9b62a3385.png"
-                  radius="xl"
-                  size={45}
-                />
-                <Avatar
-                  src="https://api.dushanbemarket.com/store/api/v1/product/image/3c8eb458-8c7f-473f-b5d6-2aa9b62a3385.png"
-                  radius="xl"
-                  size={45}
-                />
-                <Avatar radius="xl" size={45}>
-                  +40
-                </Avatar>
+                {orderItems
+                  ?.slice(0, 3)
+                  .map((order, key) => (
+                    <Avatar
+                      key={key}
+                      src={order?.images[0]}
+                      radius="xl"
+                      size={45}
+                    />
+                  ))}
+                {orderItems && orderItems.length > 3 && (
+                  <Avatar radius="xl" size={45}>
+                    +{orderItems.length - 3}
+                  </Avatar>
+                )}
               </Avatar.Group>
             </Grid.Col>
             <Grid.Col span={6}>
@@ -72,6 +99,9 @@ export default function ProductOrderCard() {
                 c={"red"}
                 color="red"
                 leftSection={<IconX size={14} />}
+                onClick={() =>
+                  changeStatus({ storeId, orderId: id, status: "decline" })
+                }
               >
                 Отменить
               </Button>
@@ -83,6 +113,9 @@ export default function ProductOrderCard() {
                 leftSection={<IconCheck size={14} />}
                 c={"green"}
                 color="green"
+                onClick={() =>
+                  changeStatus({ storeId, orderId: id, status: "accept" })
+                }
               >
                 Принять
               </Button>
@@ -90,7 +123,16 @@ export default function ProductOrderCard() {
           </Grid>
         </Flex>
       </SimpleGrid>
-      <ViewOrderDetails close={close} open={open} opened={opened}/>
+      <ViewOrderDetails
+        address={address}
+        comment={comment}
+        orderDate={orderDate}
+        orderItems={orderItems}
+        phoneNumber={phoneNumber}
+        close={close}
+        open={open}
+        opened={opened}
+      />
     </Paper>
   );
 }
