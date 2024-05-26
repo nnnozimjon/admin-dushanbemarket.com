@@ -11,7 +11,6 @@ import {
   MultiSelect,
   NumberInput,
   Paper,
-  Radio,
   Select,
   SimpleGrid,
   TagsInput,
@@ -25,6 +24,8 @@ import { Group, Text, rem } from "@mantine/core";
 import { Icon } from "@/components";
 import { colors } from "@/utils/color";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface Category {
   id: number;
@@ -33,6 +34,9 @@ interface Category {
 }
 
 export default function ProductCreate() {
+  const store_id = useSelector(
+    (state: RootState) => state.userStores.selectedStore?.storeId
+  );
   const [files, setFiles] = useState<File[] | undefined>(undefined);
   const [imageSrcs, setImageSrcs] = useState<string[] | undefined>(undefined);
   const [isChecked, setIsChecked] = useState(false);
@@ -43,13 +47,8 @@ export default function ProductCreate() {
     category_id: "",
     sub_category_id: "",
     brand_id: "",
-    model_id: "",
     qty: "",
-    colors: "",
-    sizes: "",
-    gender: "",
     price: "",
-    price_in_friday: "",
     shipping: "",
   });
 
@@ -110,12 +109,8 @@ export default function ProductCreate() {
     formData.append("sub_category_id", productDetails?.sub_category_id);
     formData.append("brand_id", productDetails?.brand_id);
     formData.append("qty", productDetails?.qty);
-    formData.append("colors", productDetails?.colors);
-    formData.append("sizes", productDetails?.sizes);
-    formData.append("gender", productDetails?.gender);
-    formData.append("price_in_friday", productDetails?.price_in_friday);
     formData.append("shipping", isChecked ? "free" : productDetails?.shipping);
-    formData.append("status", "active");
+    formData.append("store_id", String(store_id));
 
     files.forEach((file) => {
       formData.append(`images`, file);
@@ -134,13 +129,10 @@ export default function ProductCreate() {
     productDetails?.sub_category_id,
     productDetails?.brand_id,
     productDetails?.qty,
-    productDetails?.colors,
-    productDetails?.sizes,
-    productDetails?.gender,
-    productDetails?.price_in_friday,
     productDetails?.shipping,
     files,
     isChecked,
+    store_id,
     createProduct,
   ]);
 

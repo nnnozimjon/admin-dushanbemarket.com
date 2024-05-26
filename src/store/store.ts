@@ -1,18 +1,21 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
-import {  userReducer } from './slices'
-import { authApi,  merchantCategoryApi, merchantProductApi } from './api'
+import {  userReducer, userStoresReducer } from './slices'
+import { authApi,  merchantCategoryApi, merchantProductApi, merchantStoresApi } from './api'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
+        userStores: userStoresReducer,
         [authApi.reducerPath]: authApi.reducer,
         [merchantProductApi.reducerPath]: merchantProductApi.reducer,
         [merchantCategoryApi.reducerPath]: merchantCategoryApi.reducer,
+        [merchantStoresApi.reducerPath]: merchantStoresApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
         merchantProductApi.middleware,
-        merchantCategoryApi.middleware
+        merchantCategoryApi.middleware,
+        merchantStoresApi.middleware
     )
 })
 

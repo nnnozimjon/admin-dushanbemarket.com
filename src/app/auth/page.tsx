@@ -149,7 +149,7 @@ export default function LoginModal() {
         align={"center"}
         className="w-[350px]"
       >
-        <p className="text-center text-[2em] select-none">Войти</p>
+        {/* <p className="text-center text-[2em] select-none">Войти</p> */}
         <InputBase
           placeholder={"Электронная почта"}
           className="w-full md:w-[400px]"
@@ -190,7 +190,7 @@ export default function LoginModal() {
         >
           Войти
         </Button>
-        <p className="text-center select-none">
+        {/* <p className="text-center select-none">
           Нет аккаунта?{" "}
           <b
             className="text-[#01B763] cursor-pointer"
@@ -198,7 +198,7 @@ export default function LoginModal() {
           >
             Зарегистрироваться
           </b>
-        </p>
+        </p> */}
       </Flex>
     </>
   );

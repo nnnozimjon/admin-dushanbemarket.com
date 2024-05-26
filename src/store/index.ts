@@ -15,3 +15,5 @@ export {
 } from "./api/merchantProductApi";
 
 export { useGetAllCategoryQuery } from "./api/merchantCategoryApi";
+
+export { useGetAllStoresQuery } from './api/MerchantStoresApi'

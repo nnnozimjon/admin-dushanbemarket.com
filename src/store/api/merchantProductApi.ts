@@ -7,15 +7,15 @@ export const merchantProductApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: merchantBaseUrl + "/product" }),
   endpoints: (build) => ({
     getById: build.query({
-      query: ({ id }) => ({
-        url: `/${id}`,
+      query: ({ id, store_id }) => ({
+        url: `/store/${store_id}/product/${id}`,
         method: "GET",
         headers: { Authorization: usingBearerToken() },
       }),
     }),
     getAllProduct: build.query({
-      query: () => ({
-        url: "",
+      query: ({ store_id }) => ({
+        url: "/store/" + store_id,
         method: "GET",
         headers: { Authorization: usingBearerToken() },
       }),
@@ -29,8 +29,8 @@ export const merchantProductApi = createApi({
       }),
     }),
     deleteProductById: build.mutation({
-      query: ({ id }) => ({
-        url: `/${id}`,
+      query: ({ storeId, productId }) => ({
+        url: `/store/${storeId}/product/${productId}`,
         method: "DELETE",
         headers: { Authorization: usingBearerToken() },
       }),

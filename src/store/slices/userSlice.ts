@@ -59,7 +59,6 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
     },
     logout: (state) => {
-
         state.user = null;
         state.isAuthenticated = false;
         deleteCookie("access_token");

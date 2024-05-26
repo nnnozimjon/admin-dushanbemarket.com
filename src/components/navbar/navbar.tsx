@@ -82,9 +82,6 @@ const data: ILink[] = [
 const roleLinks = {
   admin: [
     "/users",
-    "/products",
-    "/orders",
-    "/invoices",
     "/categories",
     "/banners",
     "/brands",
@@ -106,7 +103,7 @@ export default function Navbar() {
   const [active, setActive] = useState("Billing");
 
   const filterLinksByRole = (role: userRole) => {
-    return data.filter((link) => roleLinks[role].includes(link.link));
+    return data.filter((link) => roleLinks[role]?.includes(link.link));
   };
 
   // @ts-ignore

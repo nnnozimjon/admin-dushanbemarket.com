@@ -1,9 +1,12 @@
-"use client"
+"use client";
 
 import { Card, Group, Text, Menu, ActionIcon, Image, rem } from "@mantine/core";
 import { IconDots, IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import { useDeleteProductByIdMutation } from "@/store";
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface Props {
   images: string[];
@@ -18,14 +21,19 @@ export default function ProductListCar({
   productName,
   refetch,
 }: Props) {
+  const storeId = useSelector(
+    (state: RootState) => state.userStores.selectedStore?.storeId
+  );
   const [deleteProduct, { isError, isSuccess, isLoading, error, data }] =
     useDeleteProductByIdMutation();
 
   useEffect(() => {
     if (isError) {
+      toast.error((error as any).data.message);
     }
 
     if (isSuccess) {
+      toast.success(data?.message);
       refetch();
     }
   }, [isError, isSuccess]);
@@ -46,7 +54,7 @@ export default function ProductListCar({
 
             <Menu.Dropdown>
               <Menu.Item
-                onClick={() => window.location.replace("/product/edit/" + id)}
+                onClick={() => window.location.replace("/products/edit/" + id)}
                 leftSection={
                   <IconEdit style={{ width: rem(14), height: rem(14) }} />
                 }
@@ -55,7 +63,7 @@ export default function ProductListCar({
               </Menu.Item>
               <Menu.Item
                 onClick={() =>
-                  window.location.replace("/product/preview/" + id)
+                  window.location.replace("/products/preview/" + id)
                 }
                 leftSection={
                   <IconEye style={{ width: rem(14), height: rem(14) }} />
@@ -68,7 +76,7 @@ export default function ProductListCar({
                   <IconTrash style={{ width: rem(14), height: rem(14) }} />
                 }
                 color="red"
-                onClick={() => deleteProduct({ id })}
+                onClick={() => deleteProduct({ storeId, productId: id })}
               >
                 Удалить
               </Menu.Item>
@@ -77,7 +85,7 @@ export default function ProductListCar({
         </Group>
       </Card.Section>
       <Card.Section>
-        <Image src={images[0]} />
+        <Image src={images[0]} alt="" />
       </Card.Section>
 
       <Card.Section
