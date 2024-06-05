@@ -8,13 +8,13 @@ const roleLinks = {
   admin: [
     "/users",
     "/categories",
-    "/banners",
     "/brands",
     "/delivery-types",
     "/characteristics",
     "/payment-types",
+    "/widgets"
   ],
-  merchant: ["/products", "/orders"],
+  merchant: ["/products", "/orders", "/profile"],
 };
 
 export default async function middleware(req: NextRequest, res: NextResponse) {

@@ -51,7 +51,7 @@ export default function ViewOrderDetails({
       onClose={close}
       title="Детали заказа"
       centered
-      classNames={{ content: "w-[600px] bg-[red]" }}
+      classNames={{ content: "w-[600px]" }}
       size={"lg"}
     >
       <Text className="text-[1.25rem] font-bold text-[#212121]">

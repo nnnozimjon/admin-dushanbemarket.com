@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { merchantBaseUrl } from "@/utils";
 import { usingBearerToken } from "@/hooks";
+import { ObjectToParams } from "@/utils/objectToParams";
 
 export const merchantProductApi = createApi({
   reducerPath: "merchantProduct",
@@ -14,8 +15,8 @@ export const merchantProductApi = createApi({
       }),
     }),
     getAllProduct: build.query({
-      query: ({ store_id }) => ({
-        url: "/store/" + store_id,
+      query: ({ store_id, pageNumber = 1, pageSize = 20 }) => ({
+        url: "/store/" + store_id + '?' + ObjectToParams({ pageSize, pageNumber }),
         method: "GET",
         headers: { Authorization: usingBearerToken() },
       }),

@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconEye, IconX } from "@tabler/icons-react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export interface OrderItem {
@@ -33,6 +34,7 @@ interface IProps {
   totalAmount: string;
   orderDate: string;
   orderItems: OrderItem[];
+  refetch?: () => void
 }
 
 export default function ProductOrderCard({
@@ -43,6 +45,7 @@ export default function ProductOrderCard({
   orderItems,
   phoneNumber,
   totalAmount,
+  refetch
 }: IProps) {
   const storeId = useSelector(
     (state: RootState) => state?.userStores?.selectedStore?.storeId
@@ -50,6 +53,12 @@ export default function ProductOrderCard({
   const [opened, { open, close }] = useDisclosure(false);
 
   const [changeStatus, { isError, isSuccess }] = useChangeStatusOrderMutation();
+
+  useEffect(() => {
+    if(isSuccess) {
+      refetch && refetch()
+    }
+  }, [isSuccess])
 
   return (
     <Paper shadow="xs" radius="lg" withBorder>
@@ -80,7 +89,7 @@ export default function ProductOrderCard({
             </Grid.Col>
             <Grid.Col span={6}>
               <Button
-                className="w-full my-2"
+                className="w-full my-2 text-[10px]"
                 variant="light"
                 c={"blue"}
                 color="blue"
@@ -94,7 +103,7 @@ export default function ProductOrderCard({
           <Grid className="mb-4">
             <Grid.Col span={6}>
               <Button
-                className="w-full"
+                className="w-full text-[12px]"
                 variant="light"
                 c={"red"}
                 color="red"
@@ -108,7 +117,7 @@ export default function ProductOrderCard({
             </Grid.Col>
             <Grid.Col span={6}>
               <Button
-                className="w-full"
+                className="w-full text-[12px]"
                 variant="light"
                 leftSection={<IconCheck size={14} />}
                 c={"green"}

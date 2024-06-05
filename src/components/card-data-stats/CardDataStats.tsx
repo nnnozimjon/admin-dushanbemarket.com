@@ -13,7 +13,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   children,
 }) => {
   return (
-    <Paper shadow="xs" radius="lg" withBorder p="xl">
+    <Paper shadow="xs" radius="lg" withBorder p="md">
       {children}
       <div>
         <Text className="font-semibold text-[24px]">{total}</Text>

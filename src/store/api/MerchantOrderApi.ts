@@ -40,7 +40,15 @@ export const merchantOrderApi = createApi({
         headers: { Authorization: usingBearerToken() },
       }),
     }),
+    getOrdersCount: build.query({
+      query: (storeId) => ({
+        url: "/" + storeId,
+        method: "GET",
+        headers: { Authorization: usingBearerToken() },
+      }),
+    }),
   }),
 });
 
-export const { useGetAllOrdersQuery, useChangeStatusOrderMutation } = merchantOrderApi;
+export const { useGetAllOrdersQuery, useChangeStatusOrderMutation, useGetOrdersCountQuery } =
+  merchantOrderApi;

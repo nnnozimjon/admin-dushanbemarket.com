@@ -14,11 +14,14 @@ import {
   IconTruckDelivery,
   IconChartArcs,
   IconMoneybag,
+  IconUser,
+  IconBrandAppgallery,
 } from "@tabler/icons-react";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "@/components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { logout } from "@/store/slices";
 
 interface ILink {
   link: string;
@@ -48,11 +51,6 @@ const data: ILink[] = [
     label: "Категории",
   },
   {
-    link: "/banners",
-    icon: IconAd2,
-    label: "Баннеры",
-  },
-  {
     link: "/brands",
     icon: IconBrand4chan,
     label: "Бренды",
@@ -72,27 +70,38 @@ const data: ILink[] = [
     icon: IconMoneybag,
     label: "Cпосбы оплаты",
   },
+  {
+    link: '/profile',
+    icon: IconUser,
+    label: 'Профиль'
+  },{
+    link: '/widgets',
+    icon: IconBrandAppgallery,
+    label: 'Виджеты'
+  }
 ];
 
 const roleLinks = {
   admin: [
     "/users",
     "/categories",
-    "/banners",
     "/brands",
     "/delivery-types",
     "/characteristics",
     "/payment-types",
+    "/widgets"
   ],
   merchant: [
     "/products",
     "/orders",
+    "/profile"
   ],
 };
 
 type userRole = 'admin' | 'merchant'
 
 export default function Navbar() {
+  const dispatch = useDispatch()
   const userRole = useSelector((state: RootState) => state?.user?.user?.user_role)
   const [active, setActive] = useState("Billing");
 
@@ -141,7 +150,7 @@ export default function Navbar() {
         <a
           href="#"
           className={classes.link}
-          onClick={(event) => event.preventDefault()}
+          onClick={(event) => dispatch(logout())}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

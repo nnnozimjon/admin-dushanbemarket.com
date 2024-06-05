@@ -11,11 +11,24 @@ export {
   useCreateProductMutation,
   useGetAllProductQuery,
   useGetByIdQuery,
-  useDeleteProductByIdMutation
+  useDeleteProductByIdMutation,
 } from "./api/merchantProductApi";
 
 export { useGetAllCategoryQuery } from "./api/merchantCategoryApi";
 
-export { useGetAllStoresQuery } from './api/MerchantStoresApi'
+export { useGetAllStoresQuery } from "./api/MerchantStoresApi";
 
-export { useGetAllOrdersQuery, useChangeStatusOrderMutation } from './api/MerchantOrderApi'
+export {
+  useGetAllOrdersQuery,
+  useChangeStatusOrderMutation,
+  useGetOrdersCountQuery
+} from "./api/MerchantOrderApi";
+
+export { useGetAllCategoryQuery as useGetAllAdminCategory } from "./api/adminCategoryApi";
+export { useGetAllUsersQuery as useGetAllAdminUsersQuery } from "./api/adminUsersApi";
+export { useGetAllWidgetsQuery } from "./api/adminWidgetApi";
+
+export {
+  useCreatePaymentMutation,
+  useGetAllPaymentsQuery,
+} from "./api/adminPaymentsApi";

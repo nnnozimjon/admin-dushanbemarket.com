@@ -61,6 +61,7 @@ const userSlice = createSlice({
     logout: (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        window.location.reload()
         deleteCookie("access_token");
       }
     },
