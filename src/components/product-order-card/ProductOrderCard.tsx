@@ -34,7 +34,8 @@ interface IProps {
   totalAmount: string;
   orderDate: string;
   orderItems: OrderItem[];
-  refetch?: () => void
+  refetch?: () => void;
+  status: "pending" | "process" | "canceled" | "completed";
 }
 
 export default function ProductOrderCard({
@@ -45,7 +46,8 @@ export default function ProductOrderCard({
   orderItems,
   phoneNumber,
   totalAmount,
-  refetch
+  status,
+  refetch,
 }: IProps) {
   const storeId = useSelector(
     (state: RootState) => state?.userStores?.selectedStore?.storeId
@@ -55,10 +57,10 @@ export default function ProductOrderCard({
   const [changeStatus, { isError, isSuccess }] = useChangeStatusOrderMutation();
 
   useEffect(() => {
-    if(isSuccess) {
-      refetch && refetch()
+    if (isSuccess) {
+      refetch && refetch();
     }
-  }, [isSuccess])
+  }, [isSuccess]);
 
   return (
     <Paper shadow="xs" radius="lg" withBorder>
@@ -100,36 +102,74 @@ export default function ProductOrderCard({
               </Button>
             </Grid.Col>
           </Grid>
-          <Grid className="mb-4">
-            <Grid.Col span={6}>
-              <Button
-                className="w-full text-[12px]"
-                variant="light"
-                c={"red"}
-                color="red"
-                leftSection={<IconX size={14} />}
-                onClick={() =>
-                  changeStatus({ storeId, orderId: id, status: "decline" })
-                }
-              >
-                Отменить
-              </Button>
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Button
-                className="w-full text-[12px]"
-                variant="light"
-                leftSection={<IconCheck size={14} />}
-                c={"green"}
-                color="green"
-                onClick={() =>
-                  changeStatus({ storeId, orderId: id, status: "accept" })
-                }
-              >
-                Принять
-              </Button>
-            </Grid.Col>
-          </Grid>
+          {status == "pending" && (
+            <Grid className="mb-4">
+              <Grid.Col span={6}>
+                <Button
+                  className="w-full text-[12px]"
+                  variant="light"
+                  c={"red"}
+                  color="red"
+                  leftSection={<IconX size={14} />}
+                  onClick={() =>
+                    changeStatus({ storeId, orderId: id, status: 5 })
+                  }
+                >
+                  Отменить
+                </Button>
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Button
+                  className="w-full text-[12px]"
+                  variant="light"
+                  leftSection={<IconCheck size={14} />}
+                  c={"green"}
+                  color="green"
+                  onClick={() =>
+                    changeStatus({ storeId, orderId: id, status: 2 })
+                  }
+                >
+                  Принять
+                </Button>
+              </Grid.Col>
+            </Grid>
+          )}
+          {status == "process" && (
+            <Button
+              className="w-full text-[12px] mb-4"
+              variant="light"
+              leftSection={<IconCheck size={14} />}
+              c={"green"}
+              color="green"
+              onClick={() => changeStatus({ storeId, orderId: id, status: 4 })}
+            >
+              Отправлен
+            </Button>
+          )}
+          {status === "canceled" && (
+            <Button
+              disabled
+              className="w-full text-[12px] mb-4 cursor-default"
+              variant="light"
+              c={"red"}
+              color="red"
+              leftSection={<IconX size={14} />}
+            >
+              Отменен
+            </Button>
+          )}
+          {status == "completed" && (
+            <Button
+              disabled
+              className="w-full text-[12px] mb-4 cursor-default"
+              variant="light"
+              leftSection={<IconCheck size={14} />}
+              c={"green"}
+              color="green"
+            >
+              Доставлен
+            </Button>
+          )}
         </Flex>
       </SimpleGrid>
       <ViewOrderDetails

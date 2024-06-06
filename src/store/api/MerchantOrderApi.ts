@@ -27,8 +27,8 @@ export const merchantOrderApi = createApi({
   },
   endpoints: (build) => ({
     getAllOrders: build.query({
-      query: ({ storeId }) => ({
-        url: "/store/" + storeId,
+      query: ({ storeId, statusId, query }) => ({
+        url: "/store/" + storeId +'/status/' + statusId + '?' + query,
         method: "GET",
         headers: { Authorization: usingBearerToken() },
       }),

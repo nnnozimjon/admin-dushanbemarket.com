@@ -1,23 +1,22 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
-import { Flex, SimpleGrid, Text } from "@mantine/core";
+import Icon from "@/components/icon/icon";
 import ProductOrderCard from "@/components/product-order-card/ProductOrderCard";
-import { useGetAllOrdersQuery, useGetOrdersCountQuery } from "@/store";
-import { useSelector } from "react-redux";
+import { useGetAllOrdersQuery } from "@/store";
 import { RootState } from "@/store/store";
-import { Icon } from "@/components";
-import { LayoutContext } from "./context";
-import Pagination from "@/components/pagination/pagination";
+import { Flex, SimpleGrid, Text } from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { LayoutContext } from "../context";
+import { Pagination } from "@/components";
 import { ObjectToParams } from "@/utils/objectToParams";
 
-export default function OrderList() {
+export default function Page() {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
   const { refetchCount } = useContext(LayoutContext);
-
   const storeId = useSelector(
     (state: RootState) => state?.userStores?.selectedStore?.storeId
   );
@@ -27,7 +26,7 @@ export default function OrderList() {
   const { data, error, isSuccess, isError, isLoading, refetch } =
     useGetAllOrdersQuery({
       storeId,
-      statusId: 1,
+      statusId: 2,
       query: ObjectToParams({ pageNumber, pageSize }),
     });
 
@@ -65,7 +64,7 @@ export default function OrderList() {
             orderDate={order?.order_date}
             orderItems={order?.order_items}
             refetch={refetchOrders}
-            status="pending"
+            status="process"
             key={key}
           />
         ))}
@@ -85,13 +84,15 @@ export default function OrderList() {
           />
           <Flex direction={"column"} align={"center"}>
             <Text className="text-[#212121] font-bold text-[16px] text-center">
-              Нет активных заказов
+              Нет заказов в обработке
             </Text>
             <Text className="text-center">
-              Обновите статус заказа, если заказ отправлен
+              Здесь будут перечислены все заказы, которые находятся в обработке.
+              <br />
+              Пожалуйста, измените статус заказа, если заказ был отправлен.
             </Text>
-            <a href="/orders/in-process" className="text-green">
-              Заказы в процессе
+            <a href="/orders" className="text-green">
+              Назад к активным заказам
             </a>
           </Flex>
         </Flex>

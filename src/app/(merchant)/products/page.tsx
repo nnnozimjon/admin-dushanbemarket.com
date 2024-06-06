@@ -16,9 +16,9 @@ interface ProductPayload {
 }
 
 export default function ProductList() {
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(20);
-  const [totalCount, setTotalCount] = useState(0)
+  const [totalCount, setTotalCount] = useState(0);
 
   const store_id = useSelector(
     (state: RootState) => state.userStores.selectedStore?.storeId
@@ -31,15 +31,15 @@ export default function ProductList() {
   useEffect(() => {
     if (isSuccess) {
       setProducts(data?.payload);
-      setTotalCount(data?.totalPages)
+      setTotalCount(data?.totalPages);
     }
 
     isError && toast.error((error as any)?.data?.message);
   }, [data?.payload, error, isError, isSuccess]);
 
   useEffect(() => {
-    refetch()
-  }, [refetch, store_id, pageNumber, pageSize])
+    refetch();
+  }, [refetch, store_id, pageNumber, pageSize]);
 
   return (
     <div>
@@ -88,8 +88,8 @@ export default function ProductList() {
           </Flex>
         </Flex>
       )}
-      <Flex align={'center'} justify={'center'} my={10}>
-        <Pagination total={totalCount} onChange={(e) => setPageNumber(e)}/>
+      <Flex align={"center"} justify={"center"} my={10}>
+        <Pagination total={totalCount} onChange={(e) => setPageNumber(e)} />
       </Flex>
     </div>
   );
