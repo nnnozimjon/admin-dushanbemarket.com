@@ -1,30 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { merchantBaseUrl } from "@/utils";
 import { usingBearerToken } from "@/hooks";
-import cookie from "js-cookie";
 
 export const merchantStoresApi = createApi({
   reducerPath: "merchantStores",
-  baseQuery: async (args, api, extraOptions) => {
-    try {
-      const result = await fetchBaseQuery({
-        baseUrl: merchantBaseUrl + "/stores",
-      })(args, api, extraOptions);
-
-      if (result?.error?.status === 401) {
-        cookie.remove("access_token");
-        window.location.reload()
-      }
-
-      return result;
-    } catch (error: any) {
-      console.log("part 2");
-      if (error.status === 401) {
-        cookie.remove("access_token");
-      }
-      throw error;
-    }
-  },
+  baseQuery: fetchBaseQuery({ baseUrl: merchantBaseUrl + "/stores" }),
   endpoints: (build) => ({
     getAllStores: build.query({
       query: () => ({
@@ -33,7 +13,26 @@ export const merchantStoresApi = createApi({
         headers: { Authorization: usingBearerToken() },
       }),
     }),
+    getStoreInfo: build.query({
+      query: ({ storeId }) => ({
+        url: "/store/" + storeId,
+        method: "GET",
+        headers: { Authorization: usingBearerToken() },
+      }),
+    }),
+    updateStoreInfo: build.mutation({
+      query: ({ storeId, body }) => ({
+        url: "/store/" + storeId,
+        method: "PUT",
+        body,
+        headers: { Authorization: usingBearerToken() },
+      }),
+    }),
   }),
 });
 
-export const { useGetAllStoresQuery } = merchantStoresApi;
+export const {
+  useGetAllStoresQuery,
+  useGetStoreInfoQuery,
+  useUpdateStoreInfoMutation,
+} = merchantStoresApi;

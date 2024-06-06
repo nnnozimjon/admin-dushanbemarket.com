@@ -25,7 +25,11 @@ export default function Header() {
   useEffect(() => {
     if (isSuccess) {
       dispatch(setStores(data?.payload));
-      dispatch(setSelectedStore(selectedStore !== null ? selectedStore : data.payload[0]))
+      dispatch(
+        setSelectedStore(
+          selectedStore !== null ? selectedStore : data.payload[0]
+        )
+      );
     }
   }, [isSuccess, isError, data?.payload, dispatch]);
 
@@ -56,7 +60,10 @@ export default function Header() {
               {stores?.map((store, i) => (
                 <Menu.Item
                   key={i}
-                  onClick={() => dispatch(setSelectedStore(store))}
+                  onClick={() => {
+                    dispatch(setSelectedStore(store));
+                    window.location.reload();
+                  }}
                 >
                   {store?.storeName}
                 </Menu.Item>
