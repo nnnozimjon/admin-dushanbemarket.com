@@ -136,7 +136,7 @@ export default function LoginModal() {
 
       setTimeout(() => {
         dispatch(loginSuccess(decryptedData));
-        window.location.replace("/");
+        window.location.replace("/products");
       }, 1000);
     }
   }, [loginIsError, loginIsSuccess]);

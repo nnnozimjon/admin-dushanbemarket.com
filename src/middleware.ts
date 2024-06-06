@@ -39,11 +39,11 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     const allowedRoutes = roleLinks[userDetails.user_role];
 
     if (!allowedRoutes.includes(path)) {
-      return NextResponse.redirect(new URL("/", req.nextUrl));
+      return NextResponse.redirect(new URL("/products", req.nextUrl));
     }
   } else if (path === "/auth") {
     if (userDetails && userDetails.email && userDetails.user_role) {
-      return NextResponse.redirect(new URL("/", req.nextUrl));
+      return NextResponse.redirect(new URL("/products", req.nextUrl));
     }
   } else if (!userDetails?.email && !userDetails?.user_role) {
     return NextResponse.redirect(new URL("/auth", req.nextUrl));
