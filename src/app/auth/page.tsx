@@ -444,10 +444,10 @@ export default function LoginModal() {
     <div className="h-screen w-full flex items-center justify-center">
       <div>
         <Flex direction={"column"} className="w-full" align={"center"}>
-          {/* <Icon
+          <Icon
             name="logo"
             className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] text-[#01B763]"
-          /> */}
+          />
         </Flex>
 
         {view == "login" && LoginView}
