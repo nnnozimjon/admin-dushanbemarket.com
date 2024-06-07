@@ -193,9 +193,9 @@ export default function ProductCreate() {
 
   return (
     <div className="w-full">
-      <h1 className="text-[20px]">Создать продукт _</h1>
+      <h1 className="text-[20px]">Создать продукт</h1>
       <br />
-      <Paper className="p-2 md:p-4" shadow="xs" radius={"lg"}>
+      <Paper withBorder className="p-2 md:p-4" shadow="xs" radius={"lg"}>
         <InputBase
           label="Название продукта"
           placeholder="Название продукта"
@@ -293,7 +293,7 @@ export default function ProductCreate() {
         {/* END OF IMAGE */}
       </Paper>
       <br />
-      <Paper className="p-2 md:p-4" shadow="xs" radius={"lg"}>
+      <Paper withBorder className="p-2 md:p-4" shadow="xs" radius={"lg"}>
         <SimpleGrid
           cols={{ base: 1, sm: 1, lg: 2, md: 2 }}
           spacing={{ base: 10, sm: "xl" }}
@@ -327,7 +327,7 @@ export default function ProductCreate() {
               controls: "hidden",
             }}
           />
-          <MultiSelect
+          {/* <MultiSelect
             data={colors}
             label="Цвет"
             placeholder="Цвет"
@@ -339,7 +339,7 @@ export default function ProductCreate() {
             label="Нажмите Enter, чтобы добавить размер"
             placeholder="Например 37, 38, 39, 40 или m, xl, 2xl..."
             classNames={{ input: "h-[50px] rounded-[16px]" }}
-          />
+          /> */}
         </SimpleGrid>
         <br />
         {/* <Radio.Group label="Для" description="Не обязательно" onChange={(e) => updateProductDetails('gender', e)}>
@@ -352,7 +352,7 @@ export default function ProductCreate() {
         </Radio.Group> */}
       </Paper>
       <br />
-      <Paper className="p-2 md:p-4" shadow="xs" radius={"lg"}>
+      <Paper withBorder className="p-2 md:p-4" shadow="xs" radius={"lg"}>
         <NumberInput
           min={0}
           label="Цена"
@@ -360,14 +360,14 @@ export default function ProductCreate() {
           onChange={(e) => updateProductDetails("price", e)}
           classNames={{ input: "h-[50px] rounded-[16px]", controls: "hidden" }}
         />
-        <NumberInput
+        {/* <NumberInput
           min={0}
           label="Цена в пятницу"
           placeholder="Цена в пятницу"
           onChange={(e) => updateProductDetails("price_in_friday", e)}
           classNames={{ input: "h-[50px] rounded-[16px]", controls: "hidden" }}
-        />
-        <br />
+        /> */}
+        {/* <br />
         <Checkbox label="Бесплатная доставка" onChange={handleCheckboxChange} />
         {!isChecked && (
           <InputBase
@@ -377,7 +377,7 @@ export default function ProductCreate() {
             className="pt-4"
             classNames={{ input: "h-[50px] rounded-[16px]" }}
           />
-        )}
+        )} */}
       </Paper>
 
       <Button
