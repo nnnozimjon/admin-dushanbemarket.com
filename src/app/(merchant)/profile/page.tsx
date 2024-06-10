@@ -161,6 +161,10 @@ export default function Page() {
   useEffect(() => {
     if (isSuccessChangePassword) {
       toast.success((dataChangePassword as any)?.message);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
 
     if (isErrorChangePassword) {
@@ -192,8 +196,6 @@ export default function Page() {
       prevPassword,
       newPassword,
     });
-
-    window.location.reload();
   };
 
   return (
