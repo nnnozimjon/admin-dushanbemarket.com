@@ -28,6 +28,14 @@ export const merchantStoresApi = createApi({
         headers: { Authorization: usingBearerToken() },
       }),
     }),
+    changePassword: build.mutation({
+      query: (body) => ({
+        url: "/change-password",
+        method: "PUT",
+        body,
+        headers: { Authorization: usingBearerToken() },
+      }),
+    }),
   }),
 });
 
@@ -35,4 +43,5 @@ export const {
   useGetAllStoresQuery,
   useGetStoreInfoQuery,
   useUpdateStoreInfoMutation,
+  useChangePasswordMutation
 } = merchantStoresApi;
