@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Flex, Group } from "@mantine/core";
+import { Code,  Group } from "@mantine/core";
 import {
   IconLogout,
   IconUserScan,
   IconPackage,
   IconShoppingCart,
-  IconFileDollar,
   IconCategory2,
-  IconAd2,
   IconBrand4chan,
   IconTruckDelivery,
   IconChartArcs,
@@ -23,6 +21,7 @@ import { AppLogo, Icon } from "@/components";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { logout } from "@/store/slices";
+import { usePathname } from "next/navigation";
 
 interface ILink {
   link: string;
@@ -109,7 +108,9 @@ export default function Navbar() {
   const userRole = useSelector(
     (state: RootState) => state?.user?.user?.user_role
   );
-  const [active, setActive] = useState("Billing");
+
+  const pathName = usePathname()
+  const [active, setActive] = useState(pathName);
 
   const filterLinksByRole = (role: userRole) => {
     return data?.filter((link) => roleLinks[role]?.includes(link.link));
@@ -118,36 +119,26 @@ export default function Navbar() {
   // @ts-ignore
   const filteredLinks = filterLinksByRole(userRole);
 
-  const links = filteredLinks?.map((item, index) => (
-    <div key={index}>
-      <div
-        className={`${classes.link} cursor-pointer`}
-        data-active={item.label === active || undefined}
-        key={item.label}
-        onClick={(event) => {
-          if (item.label === active) {
-            return setActive("");
-          }
-          setActive(item.label);
-        }}
-      >
-        <Flex align={"center"} justify={"space-between"} className="w-full">
-          <Flex align={"center"} justify={"center"}>
-            <item.icon className={classes.linkIcon} stroke={1.5} />
-            <a className="no-underline text-blue w-full" href={item?.link}>
-              {item.label}
-            </a>
-          </Flex>
-        </Flex>
-      </div>
-    </div>
+  const links = filteredLinks?.map((item) => (
+    <a
+      className={classes.link}
+      data-active={item.link === active || undefined}
+      href={item.link}
+      key={item.label}
+      onClick={() => {
+        setActive(item.label);
+      }}
+    >
+      <item.icon className={classes.linkIcon} stroke={1.5} />
+      <span>{item.label}</span>
+    </a>
   ));
 
   return (
-    <nav className={`${classes.navbar}`}>
-      <div className={`${classes.navbarMain} px-2`}>
+    <nav className={classes.navbar}>
+      <div className={classes.navbarMain}>
         <Group className={classes.header} justify="space-between">
-          <Icon name="logo" className="w-[50px] h-[50px] text-green" />
+          <Icon name="logo" className="w-[80px] h-[80px] text-[white]" />
         </Group>
         {links}
       </div>

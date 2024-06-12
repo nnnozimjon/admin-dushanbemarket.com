@@ -50,14 +50,22 @@ export default function ProductCreate() {
     qty: "",
     price: "",
     shipping: "",
-  });
+  }); 
 
   const [createProduct, { data, isError, isLoading, isSuccess, error }] =
     useCreateProductMutation();
 
-  const handleDropzoneChange = (files: File[]) => {
-    if (files.length > 0) {
-      const filesToProcess = files.slice(0, 5); // Take the first 5 files
+  const handleDropzoneChange = (newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      let allFiles = [...newFiles];
+
+      files?.forEach((file) => {
+        if (file !== undefined) {
+          allFiles.push(file);
+        }
+      });
+
+      const filesToProcess = allFiles.slice(0, 5); // Take the first 5 files
       setFiles(filesToProcess);
       const imageSrcs: string[] = [];
 
