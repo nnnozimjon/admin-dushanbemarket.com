@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Group, Text, Menu, ActionIcon, Image, rem } from "@mantine/core";
+import { Card, Group, Text, Menu, ActionIcon, Image, rem, Button } from "@mantine/core";
 import { IconDots, IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import { useDeleteProductByIdMutation } from "@/store";
 import React, { useEffect } from "react";
@@ -12,6 +12,7 @@ interface Props {
   images: string[];
   id: number;
   productName: string;
+  status: string;
   refetch: () => void;
 }
 
@@ -20,6 +21,7 @@ export default function ProductListCar({
   images,
   productName,
   refetch,
+  status,
 }: Props) {
   const storeId = useSelector(
     (state: RootState) => state.userStores.selectedStore?.storeId
@@ -97,6 +99,8 @@ export default function ProductListCar({
           {productName}
         </Text>
       </Card.Section>
+
+      {status == 'review' && <Button className="text-[11px] cursor-default" variant="outline" disabled>На рассмотрении</Button>}
     </Card>
   );
 }

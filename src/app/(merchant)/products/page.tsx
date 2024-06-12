@@ -13,6 +13,7 @@ interface ProductPayload {
   images: string;
   id: number;
   name: string;
+  status: string;
 }
 
 export default function ProductList() {
@@ -57,6 +58,7 @@ export default function ProductList() {
         {!isLoading &&
           products?.map((product: ProductPayload, index: number) => (
             <ProductListCard
+              status={product?.status}
               refetch={refetch}
               id={product?.id}
               productName={product?.name}
