@@ -16,6 +16,7 @@ import {
   IconMoneybag,
   IconUser,
   IconBrandAppgallery,
+  IconBuildingStore,
 } from "@tabler/icons-react";
 import classes from "./styles.module.css";
 import { AppLogo, Icon } from "@/components";
@@ -34,6 +35,11 @@ const data: ILink[] = [
     link: "/users",
     label: "Пользователи",
     icon: IconUserScan,
+  },
+  {
+    link: "/stores",
+    label: "Магазины",
+    icon: IconBuildingStore,
   },
   {
     link: "/products",
@@ -71,38 +77,38 @@ const data: ILink[] = [
     label: "Cпосбы оплаты",
   },
   {
-    link: '/profile',
+    link: "/profile",
     icon: IconUser,
-    label: 'Профиль'
-  },{
-    link: '/widgets',
+    label: "Профиль",
+  },
+  {
+    link: "/widgets",
     icon: IconBrandAppgallery,
-    label: 'Виджеты'
-  }
+    label: "Виджеты",
+  },
 ];
 
 const roleLinks = {
   admin: [
     "/users",
     "/categories",
+    "/stores",
     "/brands",
     "/delivery-types",
     "/characteristics",
     "/payment-types",
-    "/widgets"
+    "/widgets",
   ],
-  merchant: [
-    "/products",
-    "/orders",
-    "/profile"
-  ],
+  merchant: ["/products", "/orders", "/profile"],
 };
 
-type userRole = 'admin' | 'merchant'
+type userRole = "admin" | "merchant";
 
 export default function Navbar() {
-  const dispatch = useDispatch()
-  const userRole = useSelector((state: RootState) => state?.user?.user?.user_role)
+  const dispatch = useDispatch();
+  const userRole = useSelector(
+    (state: RootState) => state?.user?.user?.user_role
+  );
   const [active, setActive] = useState("Billing");
 
   const filterLinksByRole = (role: userRole) => {

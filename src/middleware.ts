@@ -13,6 +13,7 @@ const roleLinks = {
     "/characteristics",
     "/payment-types",
     "/widgets",
+    "/stores",
   ],
   merchant: ["/products", "/orders", "/profile"],
 };
