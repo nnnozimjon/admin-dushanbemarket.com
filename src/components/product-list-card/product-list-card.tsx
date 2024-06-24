@@ -87,7 +87,7 @@ export default function ProductListCar({
         </Group>
       </Card.Section>
       <Card.Section>
-        <Image src={images[0]} alt="" />
+        <Image className="h-[200px] object-contain p-4" src={images[0]} alt="" />
       </Card.Section>
 
       <Card.Section
@@ -96,7 +96,7 @@ export default function ProductListCar({
         className="border-t border-solid border-l-0 border-r-0 border-b-0 pt-2 border-[rgba(0,0,0,0.1)] "
       >
         <Text fw={500} className="text-sm">
-          {productName}
+          {productName?.length > 30 ? productName.substring(0,30) + '...' : productName}
         </Text>
       </Card.Section>
 
