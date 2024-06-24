@@ -32,3 +32,5 @@ export {
   useCreatePaymentMutation,
   useGetAllPaymentsQuery,
 } from "./api/adminPaymentsApi";
+
+export { useGetAllMerchantsQuery } from './api/adminMerchantApi';

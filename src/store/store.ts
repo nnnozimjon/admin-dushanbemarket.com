@@ -2,6 +2,7 @@ import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { userReducer, userStoresReducer } from "./slices";
 import {
   adminCategoryApi,
+  adminMerchantApi,
   adminPaymentsApi,
   adminUsersApi,
   adminWidgetsApi,
@@ -25,6 +26,7 @@ export const store = configureStore({
     [adminUsersApi.reducerPath]: adminUsersApi.reducer,
     [adminWidgetsApi.reducerPath]: adminWidgetsApi.reducer,
     [adminPaymentsApi.reducerPath]: adminPaymentsApi.reducer,
+    [adminMerchantApi.reducerPath]: adminMerchantApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -36,7 +38,8 @@ export const store = configureStore({
       adminCategoryApi.middleware,
       adminUsersApi.middleware,
       adminWidgetsApi.middleware,
-      adminPaymentsApi.middleware
+      adminPaymentsApi.middleware,
+      adminMerchantApi.middleware
     ),
 });
 

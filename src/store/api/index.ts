@@ -7,3 +7,4 @@ export { adminCategoryApi } from "./adminCategoryApi";
 export { adminUsersApi } from "./adminUsersApi";
 export { adminWidgetsApi } from "./adminWidgetApi";
 export { adminPaymentsApi } from './adminPaymentsApi';
+export { adminMerchantApi } from './adminMerchantApi';
